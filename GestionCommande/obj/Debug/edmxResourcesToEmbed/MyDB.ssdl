@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Gestion_CommandeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Nom" Type="varchar" MaxLength="15" />
+    <Property Name="Prénom" Type="varchar" MaxLength="15" />
+    <Property Name="Login" Type="varchar" MaxLength="15" />
+    <Property Name="Pass" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="CIN" />
+    </Key>
+    <Property Name="CIN" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Nom" Type="varchar" MaxLength="15" />
+    <Property Name="Prénom" Type="varchar" MaxLength="15" />
+    <Property Name="Ville" Type="varchar" MaxLength="15" />
+    <Property Name="Téléphone" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Commande">
+    <Key>
+      <PropertyRef Name="Num_cmd" />
+    </Key>
+    <Property Name="Num_cmd" Type="int" Nullable="false" />
+    <Property Name="CIN" Type="varchar" MaxLength="15" />
+    <Property Name="Datecmd" Type="date" />
+  </EntityType>
+  <EntityType Name="DétailsCommande">
+    <Key>
+      <PropertyRef Name="Num_cmd" />
+      <PropertyRef Name="RefProduit" />
+    </Key>
+    <Property Name="Num_cmd" Type="int" Nullable="false" />
+    <Property Name="RefProduit" Type="int" Nullable="false" />
+    <Property Name="Quantité" Type="int" />
+  </EntityType>
+  <EntityType Name="Produit">
+    <Key>
+      <PropertyRef Name="Refproduit" />
+    </Key>
+    <Property Name="Refproduit" Type="int" Nullable="false" />
+    <Property Name="Intitulé" Type="varchar" MaxLength="20" />
+    <Property Name="Catégorie" Type="varchar" MaxLength="15" />
+    <Property Name="PrixVente" Type="float" />
+  </EntityType>
+  <Association Name="FK__Commande__CIN__267ABA7A">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="CIN" />
+      </Principal>
+      <Dependent Role="Commande">
+        <PropertyRef Name="CIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DétailsCo__Num_c__2B3F6F97">
+    <End Role="Commande" Type="Self.Commande" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DétailsCommande" Type="Self.DétailsCommande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Commande">
+        <PropertyRef Name="Num_cmd" />
+      </Principal>
+      <Dependent Role="DétailsCommande">
+        <PropertyRef Name="Num_cmd" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DétailsCo__RefPr__2C3393D0">
+    <End Role="Produit" Type="Self.Produit" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DétailsCommande" Type="Self.DétailsCommande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produit">
+        <PropertyRef Name="Refproduit" />
+      </Principal>
+      <Dependent Role="DétailsCommande">
+        <PropertyRef Name="RefProduit" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Gestion_CommandeModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Commande" EntityType="Self.Commande" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DétailsCommande" EntityType="Self.DétailsCommande" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Produit" EntityType="Self.Produit" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Commande__CIN__267ABA7A" Association="Self.FK__Commande__CIN__267ABA7A">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Commande" EntitySet="Commande" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DétailsCo__Num_c__2B3F6F97" Association="Self.FK__DétailsCo__Num_c__2B3F6F97">
+      <End Role="Commande" EntitySet="Commande" />
+      <End Role="DétailsCommande" EntitySet="DétailsCommande" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DétailsCo__RefPr__2C3393D0" Association="Self.FK__DétailsCo__RefPr__2C3393D0">
+      <End Role="Produit" EntitySet="Produit" />
+      <End Role="DétailsCommande" EntitySet="DétailsCommande" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

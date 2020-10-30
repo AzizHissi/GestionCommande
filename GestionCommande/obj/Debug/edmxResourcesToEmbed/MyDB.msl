@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Gestion_CommandeModelStoreContainer" CdmEntityContainer="Gestion_CommandeEntities1">
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="Gestion_CommandeModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="Gestion_CommandeModel.Client">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="CIN" ColumnName="CIN" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+          <ScalarProperty Name="Ville" ColumnName="Ville" />
+          <ScalarProperty Name="Téléphone" ColumnName="Téléphone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Commandes">
+      <EntityTypeMapping TypeName="Gestion_CommandeModel.Commande">
+        <MappingFragment StoreEntitySet="Commande">
+          <ScalarProperty Name="Num_cmd" ColumnName="Num_cmd" />
+          <ScalarProperty Name="CIN" ColumnName="CIN" />
+          <ScalarProperty Name="Datecmd" ColumnName="Datecmd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DétailsCommande">
+      <EntityTypeMapping TypeName="Gestion_CommandeModel.DétailsCommande">
+        <MappingFragment StoreEntitySet="DétailsCommande">
+          <ScalarProperty Name="Num_cmd" ColumnName="Num_cmd" />
+          <ScalarProperty Name="RefProduit" ColumnName="RefProduit" />
+          <ScalarProperty Name="Quantité" ColumnName="Quantité" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Produits">
+      <EntityTypeMapping TypeName="Gestion_CommandeModel.Produit">
+        <MappingFragment StoreEntitySet="Produit">
+          <ScalarProperty Name="Refproduit" ColumnName="Refproduit" />
+          <ScalarProperty Name="Intitulé" ColumnName="Intitulé" />
+          <ScalarProperty Name="Catégorie" ColumnName="Catégorie" />
+          <ScalarProperty Name="PrixVente" ColumnName="PrixVente" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

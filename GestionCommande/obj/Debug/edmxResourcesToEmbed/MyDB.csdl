@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Gestion_CommandeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Nom" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Prénom" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Login" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Pass" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="CIN" />
+    </Key>
+    <Property Name="CIN" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nom" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Prénom" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Ville" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Téléphone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Commandes" Relationship="Self.FK__Commande__CIN__267ABA7A" FromRole="Client" ToRole="Commande" />
+  </EntityType>
+  <EntityType Name="Commande">
+    <Key>
+      <PropertyRef Name="Num_cmd" />
+    </Key>
+    <Property Name="Num_cmd" Type="Int32" Nullable="false" />
+    <Property Name="CIN" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Datecmd" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Client" Relationship="Self.FK__Commande__CIN__267ABA7A" FromRole="Commande" ToRole="Client" />
+    <NavigationProperty Name="DétailsCommande" Relationship="Self.FK__DétailsCo__Num_c__2B3F6F97" FromRole="Commande" ToRole="DétailsCommande" />
+  </EntityType>
+  <EntityType Name="DétailsCommande">
+    <Key>
+      <PropertyRef Name="Num_cmd" />
+      <PropertyRef Name="RefProduit" />
+    </Key>
+    <Property Name="Num_cmd" Type="Int32" Nullable="false" />
+    <Property Name="RefProduit" Type="Int32" Nullable="false" />
+    <Property Name="Quantité" Type="Int32" />
+    <NavigationProperty Name="Commande" Relationship="Self.FK__DétailsCo__Num_c__2B3F6F97" FromRole="DétailsCommande" ToRole="Commande" />
+    <NavigationProperty Name="Produit" Relationship="Self.FK__DétailsCo__RefPr__2C3393D0" FromRole="DétailsCommande" ToRole="Produit" />
+  </EntityType>
+  <EntityType Name="Produit">
+    <Key>
+      <PropertyRef Name="Refproduit" />
+    </Key>
+    <Property Name="Refproduit" Type="Int32" Nullable="false" />
+    <Property Name="Intitulé" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Catégorie" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="PrixVente" Type="Double" />
+    <NavigationProperty Name="DétailsCommande" Relationship="Self.FK__DétailsCo__RefPr__2C3393D0" FromRole="Produit" ToRole="DétailsCommande" />
+  </EntityType>
+  <Association Name="FK__Commande__CIN__267ABA7A">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="CIN" />
+      </Principal>
+      <Dependent Role="Commande">
+        <PropertyRef Name="CIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DétailsCo__Num_c__2B3F6F97">
+    <End Role="Commande" Type="Self.Commande" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DétailsCommande" Type="Self.DétailsCommande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Commande">
+        <PropertyRef Name="Num_cmd" />
+      </Principal>
+      <Dependent Role="DétailsCommande">
+        <PropertyRef Name="Num_cmd" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DétailsCo__RefPr__2C3393D0">
+    <End Role="Produit" Type="Self.Produit" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DétailsCommande" Type="Self.DétailsCommande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produit">
+        <PropertyRef Name="Refproduit" />
+      </Principal>
+      <Dependent Role="DétailsCommande">
+        <PropertyRef Name="RefProduit" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Gestion_CommandeEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="Clients" EntityType="Self.Client" />
+    <EntitySet Name="Commandes" EntityType="Self.Commande" />
+    <EntitySet Name="DétailsCommande" EntityType="Self.DétailsCommande" />
+    <EntitySet Name="Produits" EntityType="Self.Produit" />
+    <AssociationSet Name="FK__Commande__CIN__267ABA7A" Association="Self.FK__Commande__CIN__267ABA7A">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="Commande" EntitySet="Commandes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DétailsCo__Num_c__2B3F6F97" Association="Self.FK__DétailsCo__Num_c__2B3F6F97">
+      <End Role="Commande" EntitySet="Commandes" />
+      <End Role="DétailsCommande" EntitySet="DétailsCommande" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DétailsCo__RefPr__2C3393D0" Association="Self.FK__DétailsCo__RefPr__2C3393D0">
+      <End Role="Produit" EntitySet="Produits" />
+      <End Role="DétailsCommande" EntitySet="DétailsCommande" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
